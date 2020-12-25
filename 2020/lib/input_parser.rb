@@ -20,7 +20,11 @@ class InputParser
     !day1?
   end
 
-  def lines
-    File.readlines(input_file).map(&:chomp).reject(&:empty?)
+  def raw_lines
+    File.readlines(input_file).map(&:chomp)
+  end
+
+  def lines(remove_empty_lines: true)
+    remove_empty_lines ? raw_lines.reject(&:empty?) : raw_lines
   end
 end
