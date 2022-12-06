@@ -31,6 +31,10 @@ input_parser.lines(remove_empty_lines: false).each do |calories|
   calory_counter.add(calories.to_i)
 end
 
+@elves = @elves.sort_by(&:amount)
 if input_parser.day1?
-  puts @elves.sort_by(&:amount).last.amount
+  puts @elves.last.amount
+else
+  top_three_elves = @elves.last(3)
+  puts top_three_elves.sum { |e| e.amount }
 end
