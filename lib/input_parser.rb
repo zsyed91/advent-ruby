@@ -2,7 +2,7 @@ class InputParser
   attr_reader :input_file
 
   def initialize
-    @input_file = ARGV[0]
+    @input_file = "day#{ARGV[0]}.txt"
     @day = ARGV[1]
 
     raise 'Input file required!' if @input_file.nil?
