@@ -20,17 +20,45 @@ class Rucksack
   end
 end
 
+class GroupedRucksack
+  def initialize
+    @rucksacks = []
+  end
+
+  def add_rucksack(rucksack)
+    @rucksacks << rucksack
+  end
+
+  def unique_entry
+    @rucksacks[0].split('').uniq.each do |char|
+      if @rucksacks[1].include?(char) && @rucksacks[2].include?(char)
+        return char
+      end
+    end
+  end
+end
+
 priorities = {}
 ('a'..'z').each_with_index do |character, index|
  priorities[character] = index + 1
  priorities[character.upcase] = index + 27
 end
-
 unique_entries = []
-input_parser.lines.each do |line|
-  rucksack = Rucksack.new(line)
 
-  unique_entries += rucksack.unique_entries
+if input_parser.day1?
+  input_parser.lines.each do |line|
+    rucksack = Rucksack.new(line)
+    unique_entries += rucksack.unique_entries
+  end
+else
+  grouped_rucksack = GroupedRucksack.new
+  input_parser.lines.each_with_index do |line, index|
+    grouped_rucksack.add_rucksack(line)
+    next unless (index + 1) % 3 == 0
+
+    unique_entries << grouped_rucksack.unique_entry
+    grouped_rucksack = GroupedRucksack.new
+  end
 end
 
 sum = 0
@@ -38,4 +66,4 @@ unique_entries.each do |unique_entry|
   sum += priorities[unique_entry]
 end
 
-puts sum
+puts "Sum: #{sum}"
